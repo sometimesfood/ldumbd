@@ -27,7 +27,6 @@ EOS
   spec.add_development_dependency 'pg', '~> 0.17.1'
   spec.add_development_dependency 'mysql2', '~> 0.3.15'
   spec.add_development_dependency 'rake', '~> 10.0.4'
-  spec.add_development_dependency 'bundler', '~> 1.3.5'
   spec.add_development_dependency 'net-ldap', '~> 0.3.1'
   spec.add_development_dependency 'minitest', '~> 5.3.0'
 end
