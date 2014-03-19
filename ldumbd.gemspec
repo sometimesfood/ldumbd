@@ -8,10 +8,14 @@ Gem::Specification.new do |spec|
   spec.version       = Ldumbd::VERSION
   spec.author        = 'Sebastian Boehm'
   spec.email         = 'sebastian@sometimesfood.org'
-  spec.description   = %q{gem description}
-  spec.summary       = %q{gem summary}
-  spec.homepage      = ''
+
+  spec.summary       = %q{A simple, self-contained LDAP server}
+  spec.homepage      = 'https://github.com/sometimesfood/ldumbd'
   spec.license       = 'MIT'
+  spec.description   = <<EOS
+Ldumbd is a simple, self-contained read-only LDAP server that uses
+PostgreSQL, MySQL/MariaDB or SQLite as a back end.
+EOS
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

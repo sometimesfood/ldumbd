@@ -61,6 +61,13 @@ Database setup: MySQL/MariaDB
     gem install mysql2
     sequel -m ${MIGRATIONS} "mysql2://ldumbd:${DB_PASSWORD}@localhost/ldumbd"
 
+Running ldumbd
+--------------
+
+    cp ${LDUMBD_DIR}/config.yml.sample /etc/ldumbd.yml
+    $EDITOR /etc/ldumbd.yml
+    ldumbd /etc/ldumbd.yml
+
 Copyright
 ---------
 

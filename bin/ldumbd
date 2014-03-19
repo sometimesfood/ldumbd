@@ -8,7 +8,7 @@ require 'ldumbd/ldap_tree'
 require 'ldumbd/preforkserver'
 
 if ARGV.size != 1
-  puts 'usage: asdf'
+  puts 'usage: ldumbd LDUMBD_CONFIG'
   exit false
 end
 
