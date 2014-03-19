@@ -13,6 +13,7 @@ if ARGV.size != 1
 end
 
 begin
+  debug = ENV['DEBUG'] == '1'
   config = YAML.load(File.read(ARGV[0]))
   DB = Sequel.connect(config['database'])
   require 'ldumbd/user'
@@ -20,6 +21,8 @@ begin
   DB.disconnect
 
   ldap_tree = Ldumbd::LdapTree.new(config['basedn'])
+
+  puts "ldumbd #{Ldumbd::VERSION} starting..."
   server = LDAP::Server.new(bindaddr: config['bind_address'],
                             port: config['port'],
                             nodelay: true,
@@ -28,10 +31,13 @@ begin
                             operation_class: Ldumbd::Operation,
                             operation_args: ldap_tree,
                             user: config['user'],
-                            group: config['group'])
+                            group: config['group'],
+                            debug: debug)
   server.run_preforkserver
+  trap('INT') { puts 'caught SIGINT, shutting down'; exit }
+  puts "prefork ok, resuming normal operation"
   server.join
 rescue => e
-  puts e.message
-  puts e.backtrace if ENV['DEBUG'] == '1'
+  $stderr.puts e.message
+  $stderr.puts e.backtrace if debug
 end

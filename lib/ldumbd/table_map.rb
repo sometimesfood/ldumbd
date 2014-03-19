@@ -61,6 +61,7 @@ module Ldumbd
       INVERSE_TABLE_MAP[table]
     end
 
+    # TODO: move this into User/Group model class
     def self.sequel_to_ldap_object(sequel_object)
       # return unmodified object if it is not a Sequel model instance
       return sequel_object unless sequel_object.is_a?(Sequel::Model)

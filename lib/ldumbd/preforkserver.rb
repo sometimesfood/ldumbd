@@ -12,6 +12,7 @@ module Ldumbd
       @nodelay = opt.has_key?(:nodelay) ? opt[:nodelay] : true
       @listen = opt[:listen] || 10
       @num_processes = opt[:num_processes] || 10
+      @debug = opt[:debug]
     end
 
     def run(&block)
@@ -22,7 +23,7 @@ module Ldumbd
         fork do
           trap('INT') { exit }
 
-          puts "child #$$ accepting connections on #{@bind_address}:#{@port}"
+          puts "child #$$ accepting connections on #{@bind_address}:#{@port}" if @debug
           loop do
             socket = @acceptor.accept
             block.call(socket)
@@ -61,10 +62,3 @@ module LDAP
     end
   end
 end
-
-__END__
-
-# Trap (Ctrl-C) interrupts, write a note, and exit immediately
-# in parent. This trap is not inherited by the forks because it
-# runs after forking has commenced.
-trap('INT') { puts "\nbailing" ; exit }
