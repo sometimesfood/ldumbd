@@ -1,0 +1,8 @@
+* Filters
+ - add documentation for missing :approx filter
+
+* Add some simple server specs using LDAP client library
+* Add documentation for DB config
+ - export DATABASE_URL='postgres://username:password@host/database'
+ - export DATABASE_URL='mysql2://username:password@host/database'
+ - export DATABASE_URL='sqlite://database.sqlite3'

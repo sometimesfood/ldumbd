@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+require 'sequel'
+require 'yaml'
+
+require 'ldumbd/operation'
+require 'ldumbd/ldap_tree'
+require 'ldumbd/preforkserver'
+
+if ARGV.size != 1
+  puts 'usage: asdf'
+  exit false
+end
+
+begin
+  config = YAML.load(File.read(ARGV[0]))
+  DB = Sequel.connect(config['database'])
+  require 'ldumbd/user'
+  require 'ldumbd/group'
+  DB.disconnect
+
+  ldap_tree = Ldumbd::LdapTree.new(config['basedn'])
+  server = LDAP::Server.new(bindaddr: config['bind_address'],
+                            port: config['port'],
+                            nodelay: true,
+                            listen: 10,
+                            num_processes: 10,
+                            operation_class: Ldumbd::Operation,
+                            operation_args: ldap_tree,
+                            user: config['user'],
+                            group: config['group'])
+  server.run_preforkserver
+  server.join
+rescue => e
+  puts e.message
+  puts e.backtrace if ENV['DEBUG'] == '1'
+end

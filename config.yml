@@ -1,0 +1,22 @@
+bind_address: 0.0.0.0
+#port: 1389
+#user: ldumbd
+#group: ldumbd
+basedn: dc=example,dc=org
+
+database:
+  adapter: postgres
+  database: ldumbd
+  user: sebastian
+
+#database:
+#  adapter: mysql2
+#  host: localhost
+#  port: 3306
+#  database: ldumbd
+#  user: root
+#  password: secret
+
+#database:
+#  adapter: sqlite
+#  database: ldumbd.sqlite3
