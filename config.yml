@@ -4,19 +4,7 @@ bind_address: 0.0.0.0
 #group: ldumbd
 basedn: dc=example,dc=org
 
-database:
-  adapter: postgres
-  database: ldumbd
-  user: sebastian
-
-#database:
-#  adapter: mysql2
-#  host: localhost
-#  port: 3306
-#  database: ldumbd
-#  user: root
-#  password: secret
-
-#database:
-#  adapter: sqlite
-#  database: ldumbd.sqlite3
+database: postgres:///ldumbd
+# database: postgres://user:password@host/database
+# database: mysql2://user:password@host:port/database
+# database: sqlite:///absolute/path/to/database.sqlite3
