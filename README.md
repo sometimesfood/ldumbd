@@ -20,8 +20,8 @@ At the moment, ldumbd has no support for any of the following:
  - any request type other than search requests
  - "approximately equal" operators in search filters
 
-Installation: Debian + SQLite
------------------------------
+Installation: Debian Wheezy
+---------------------------
 
     sudo -i
     export LDUMBD_DIR=/var/lib/ldumbd
@@ -33,41 +33,33 @@ Installation: Debian + SQLite
     aptitude install libsqlite3-dev
     gem install ldumbd
     export MIGRATIONS=$(dirname $(gem contents ldumbd | grep migrations/001))
+
+Database setup: SQLite
+----------------------
+
     sudo -u ldumbd sequel -m ${MIGRATIONS} sqlite://${LDUMBD_DIR}/ldumbd.sqlite3
 
-Installation: Debian + PostgreSQL
----------------------------------
+Database setup: PostgreSQL
+--------------------------
 
-    sudo -i
-    export LDUMBD_DIR=/var/lib/ldumbd
-    mkdir -p ${LDUMBD_DIR}
-    groupadd -r ldumbd
-    useradd -r -s /bin/false -g ldumbd -d ${LDUMBD_DIR} ldumbd
-    chown ldumbd:ldumbd ${LDUMBD_DIR}
-    chmod 700 ${LDUMBD_DIR}
     aptitude install postgresql libpq-dev libsqlite3-dev
     sudo -u postgres createuser ldumbd
     sudo -u postgres createdb -O ldumbd ldumbd
-    gem install pg ldumbd
+    gem install pg
     sudo -u ldumbd sequel -m ${MIGRATIONS} postgres:///ldumbd
 
-Installation: Debian + MySQL/MariaDB
-------------------------------------
+Database setup: MySQL/MariaDB
+-----------------------------
 
-    sudo -i
-    groupadd -r ldumbd
-    useradd -r -s /bin/false -g ldumbd -d /var/lib/ldumbd ldumbd
-    mkdir -p /var/lib/ldumbd
-    chown ldumbd:ldumbd /var/lib/ldumbd
-    chmod 700 /var/lib/ldumbd
+    export DB_PASSWORD='secret'
     aptitude install mysql-server libmysqlclient-dev libsqlite3-dev
     cat <<EOS | mysql -u root -p
     CREATE DATABASE ldumbd;
     CREATE USER 'ldumbd'@'localhost' IDENTIFIED BY 'secret';
     GRANT ALL PRIVILEGES ON ldumbd.* TO 'ldumbd'@'localhost';
     EOS
-    gem install mysql2 ldumbd
-    sequel -m ${MIGRATIONS} "mysql2://ldumbd:secret@localhost/ldumbd"
+    gem install mysql2
+    sequel -m ${MIGRATIONS} "mysql2://ldumbd:${DB_PASSWORD}@localhost/ldumbd"
 
 Copyright
 ---------
