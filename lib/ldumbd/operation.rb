@@ -7,48 +7,54 @@ module Ldumbd
       @ldap_tree = ldap_tree
     end
 
-    def search_results(basedn, scope, deref, filter)
+    def search(basedn, scope, deref, filter)
+      search_results(basedn, scope, deref, filter) do |ldap_object|
+        dn = @ldap_tree.dn(ldap_object['dn_prefix'])
+        object = ldap_object.reject { |k, v| k == 'dn_prefix' }
+        send_SearchResultEntry(dn, object)
+      end
+    end
+
+    private
+    def search_results(basedn, scope, deref, filter, &block)
       case scope
       when LDAP::Server::BaseObject
-        # the base object only
-        object = @ldap_tree.find_by_dn(basedn)
-        if object.matches_filter?(filter) && block_given?
-          yield TableMap.sequel_to_ldap_object(object.attributes)
-        end
-
+        search_results_baseobject(basedn, filter, &block)
       when LDAP::Server::SingleLevel
-        # objects immediately subordinate to the base object; does not
-        # include the base object itself.
-        object = @ldap_tree.find_by_dn(basedn)
-        object.each_child(filter) do |r|
-          yield TableMap.sequel_to_ldap_object(r) if block_given?
-        end
-
+        search_results_singlelevel(basedn, filter, &block)
       when LDAP::Server::WholeSubtree
-        # base object and the entire subtree, also includes the base
-        # object itself.
-        object = @ldap_tree.find_by_dn(basedn)
-        if object.matches_filter?(filter) && block_given?
-          yield TableMap.sequel_to_ldap_object(object.attributes)
-        end
-        object.each_child(filter, true) do |r|
-          yield TableMap.sequel_to_ldap_object(r) if block_given?
-        end
+        search_results_subtree(basedn, filter, &block)
       else
         raise LDAP::ResultError::UnwillingToPerform, 'Invalid search scope'
       end
     end
 
-    def stringify(hash)
-      Hash[hash.map { |k, v| [k.to_s, v.to_s] } ]
+    def search_results_baseobject(basedn, filter, &block)
+      # the base object only
+      object = @ldap_tree.find_by_dn(basedn)
+      if object.matches_filter?(filter) && block_given?
+        block.call(TableMap.sequel_to_ldap_object(object.attributes))
+      end
     end
 
-    def search(basedn, scope, deref, filter)
-      search_results(basedn, scope, deref, filter) do |ldap_object|
-        # TODO: build a proper DN here
-        dn = @ldap_tree.dn(ldap_object['dn_prefix'])
-        object = ldap_object.reject { |k, v| k == 'dn_prefix' }
-        send_SearchResultEntry(dn, object)
+    def search_results_singlelevel(basedn, filter, &block)
+      # objects immediately subordinate to the base object; does not
+      # include the base object itself.
+      object = @ldap_tree.find_by_dn(basedn)
+      object.each_child(filter) do |r|
+        block.call(TableMap.sequel_to_ldap_object(r)) if block_given?
+      end
+    end
+
+    def search_results_subtree(basedn, filter, &block)
+      # base object and the entire subtree, also includes the base
+      # object itself.
+      object = @ldap_tree.find_by_dn(basedn)
+      if object.matches_filter?(filter) && block_given?
+        block.call(TableMap.sequel_to_ldap_object(object.attributes))
+      end
+      object.each_child(filter, true) do |r|
+        block.call(TableMap.sequel_to_ldap_object(r)) if block_given?
       end
     end
   end # Operation

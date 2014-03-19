@@ -4,6 +4,10 @@ require 'ldumbd/table_map'
 require 'ldumbd/ldap_tree'
 require 'ldumbd/operation'
 
+class Ldumbd::Operation
+  public :search_results
+end
+
 class ConnectionMock
   def opt
     Hash.new
