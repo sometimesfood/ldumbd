@@ -17,13 +17,23 @@ Ldumbd is a simple, self-contained read-only LDAP server that uses
 PostgreSQL, MySQL/MariaDB or SQLite as a back end.
 EOS
 
-  spec.files         = `git ls-files`.split($/)
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.files         = `git ls-files -z`.split("\0") &
+    Dir['config.yml.sample',
+        'Gemfile',
+        'ldumbd.gemspec',
+        'LICENSE',
+        'NEWS',
+        'Rakefile',
+        'README.md',
+        'TODO.org',
+        '{bin,lib,db,spec}/**/*']
+  spec.executables   = ['ldumbd']
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
 
   spec.add_dependency 'ruby-ldapserver', '~> 0.5.0'
   spec.add_dependency 'sequel', '~> 4.7.0'
   spec.add_dependency 'sqlite3', '~> 1.3.9'
+
   spec.add_development_dependency 'pg', '~> 0.17.1'
   spec.add_development_dependency 'mysql2', '~> 0.3.15'
   spec.add_development_dependency 'rake', '~> 10.0.4'
