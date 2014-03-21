@@ -1,10 +1,11 @@
-bind_address: 0.0.0.0
+#bind_address: 0.0.0.0
 #port: 1389
 #user: ldumbd
 #group: ldumbd
 basedn: dc=example,dc=org
 
 # database: postgres:///ldumbd
+
 # database: postgres://user:password@host/database
 # database: mysql2://user:password@host:port/database
-database: sqlite://ldumbd-fstph.sqlite3
+# database: sqlite:///path/to/database.sqlite3
