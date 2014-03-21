@@ -6,6 +6,7 @@ require 'yaml'
 require 'ldumbd/operation'
 require 'ldumbd/ldap_tree'
 require 'ldumbd/preforkserver'
+require 'ldumbd/version'
 
 if ARGV.size != 1
   puts 'usage: ldumbd LDUMBD_CONFIG'
