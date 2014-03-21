@@ -65,7 +65,8 @@ Database setup: MySQL/MariaDB
 Running ldumbd
 --------------
 
-    cp ${LDUMBD_DIR}/config.yml.sample /etc/ldumbd.yml
+    export LDUMBD_CONFIG="$(gem contents ldumbd | grep config.yml.sample)"
+    cp "${LDUMBD_CONFIG}" /etc/ldumbd.yml
     $EDITOR /etc/ldumbd.yml
     ldumbd /etc/ldumbd.yml
 
