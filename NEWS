@@ -1,4 +1,9 @@
 * ldumbd NEWS
+** 0.1.1 (2014-03-21)
+
+ - Require ldumbd/version in bin/ldumbd
+ - Fix "Running ldumbd" section in README.md
+
 ** 0.1.0 (2014-03-21)
 
  - First release
