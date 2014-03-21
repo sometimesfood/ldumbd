@@ -30,19 +30,20 @@ Installation: Debian Wheezy
     useradd -r -s /bin/false -g ldumbd -d ${LDUMBD_DIR} ldumbd
     chown ldumbd:ldumbd ${LDUMBD_DIR}
     chmod 700 ${LDUMBD_DIR}
-    aptitude install libsqlite3-dev
     gem install ldumbd
     export MIGRATIONS=$(dirname $(gem contents ldumbd | grep migrations/001))
 
 Database setup: SQLite
 ----------------------
 
+    aptitude install libsqlite3-dev
+    gem install sqlite3
     sudo -u ldumbd sequel -m ${MIGRATIONS} sqlite://${LDUMBD_DIR}/ldumbd.sqlite3
 
 Database setup: PostgreSQL
 --------------------------
 
-    aptitude install postgresql libpq-dev libsqlite3-dev
+    aptitude install postgresql libpq-dev
     sudo -u postgres createuser ldumbd
     sudo -u postgres createdb -O ldumbd ldumbd
     gem install pg
@@ -52,7 +53,7 @@ Database setup: MySQL/MariaDB
 -----------------------------
 
     export DB_PASSWORD='secret'
-    aptitude install mysql-server libmysqlclient-dev libsqlite3-dev
+    aptitude install mysql-server libmysqlclient-dev
     cat <<EOS | mysql -u root -p
     CREATE DATABASE ldumbd;
     CREATE USER 'ldumbd'@'localhost' IDENTIFIED BY 'secret';

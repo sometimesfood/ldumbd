@@ -32,8 +32,8 @@ EOS
 
   spec.add_dependency 'ruby-ldapserver', '~> 0.5.0'
   spec.add_dependency 'sequel', '~> 4.7.0'
-  spec.add_dependency 'sqlite3', '~> 1.3.9'
 
+  spec.add_development_dependency 'sqlite3', '~> 1.3.9'
   spec.add_development_dependency 'pg', '~> 0.17.1'
   spec.add_development_dependency 'mysql2', '~> 0.3.15'
   spec.add_development_dependency 'rake', '~> 10.0.4'
