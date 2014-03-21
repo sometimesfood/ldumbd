@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - 1.9.3
+  - 2.1.0
+env:
+  - DATABASE_URL=mysql2://travis@127.0.0.1/ldumbd_test
+  - DATABASE_URL=sqlite://ldumbd-test.sqlite3
+  - DATABASE_URL=postgres:///ldumbd_test
+before_script:
+  - mysql -e 'create database ldumbd_test;'
+  - psql -c 'create database ldumbd_test;' -U postgres
+  - bundle exec rake db:migrate
+script: bundle exec rake test
