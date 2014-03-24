@@ -30,6 +30,8 @@ EOS
   spec.executables   = ['ldumbd']
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
 
+  spec.required_ruby_version = '>= 1.9.3'
+
   spec.add_dependency 'ruby-ldapserver', '~> 0.5.0'
   spec.add_dependency 'sequel', '~> 4.7.0'
 
