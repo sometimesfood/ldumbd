@@ -26,7 +26,7 @@ EOS
         'Rakefile',
         'README.md',
         'TODO.org',
-        '{bin,lib,db,spec}/**/*']
+        '{bin,contrib,db,lib,spec}/**/*']
   spec.executables   = ['ldumbd']
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
 
