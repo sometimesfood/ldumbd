@@ -1,4 +1,9 @@
 * ldumbd NEWS
+** 0.1.2 (2014-03-24)
+
+ - Add import-ldif-data.rb to contrib
+ - Update dependencies
+
 ** 0.1.1 (2014-03-21)
 
  - Require ldumbd/version in bin/ldumbd
