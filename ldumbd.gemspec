@@ -33,7 +33,7 @@ EOS
   spec.required_ruby_version = '>= 1.9.3'
 
   spec.add_dependency 'ruby-ldapserver', '~> 0.5.0'
-  spec.add_dependency 'sequel', '~> 4.8.0'
+  spec.add_dependency 'sequel', '~> 4.9.0'
 
   spec.add_development_dependency 'sqlite3', '~> 1.3.9'
   spec.add_development_dependency 'pg', '~> 0.17.1'
