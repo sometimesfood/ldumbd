@@ -38,6 +38,6 @@ EOS
   spec.add_development_dependency 'sqlite3', '~> 1.3.9'
   spec.add_development_dependency 'pg', '~> 0.17.1'
   spec.add_development_dependency 'mysql2', '~> 0.3.15'
-  spec.add_development_dependency 'rake', '~> 10.1.1'
+  spec.add_development_dependency 'rake', '~> 12.3.3'
   spec.add_development_dependency 'minitest', '~> 5.3.0'
 end
